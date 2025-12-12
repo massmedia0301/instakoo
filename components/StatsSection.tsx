@@ -41,18 +41,18 @@ const StatsSection: React.FC = () => {
     }, [isVisible, end]);
 
     return (
-      <div className="text-center p-6 bg-white rounded-3xl shadow-soft">
-        <h3 className="text-4xl font-bold text-primary mb-2">
+      <div className="text-center p-4 bg-white rounded-2xl shadow-soft">
+        <h3 className="text-2xl font-bold text-primary mb-1">
           {count.toLocaleString()}{suffix}
         </h3>
-        <p className="text-gray-500 font-medium">{label}</p>
+        <p className="text-gray-500 font-medium text-xs">{label}</p>
       </div>
     );
   };
 
   return (
-    <div ref={ref} className="max-w-6xl mx-auto px-4 py-16">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div ref={ref} className="max-w-5xl mx-auto px-4 py-12">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Counter end={125000} label="누적 주문 건수" suffix="+" />
         <Counter end={50} label="제공 중인 서비스" suffix="개" />
         <Counter end={98} label="고객 만족도" suffix="%" />

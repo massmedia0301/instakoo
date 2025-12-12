@@ -8,8 +8,9 @@ import Reviews from './components/Reviews';
 import Footer from './components/Footer';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
+import RechargePage from './components/RechargePage';
 
-type ViewState = 'home' | 'login' | 'signup';
+type ViewState = 'home' | 'login' | 'signup' | 'recharge';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('home');
@@ -29,6 +30,11 @@ const App: React.FC = () => {
     window.scrollTo(0, 0);
   };
 
+  const navigateToRecharge = () => {
+    setCurrentView('recharge');
+    window.scrollTo(0, 0);
+  };
+
   if (currentView === 'login') {
     return <LoginPage onBack={navigateToHome} onSignup={navigateToSignup} />;
   }
@@ -37,17 +43,25 @@ const App: React.FC = () => {
     return <SignupPage onBack={navigateToHome} onLogin={navigateToLogin} />;
   }
 
+  if (currentView === 'recharge') {
+    return <RechargePage onBack={navigateToHome} />;
+  }
+
   return (
     <div className="min-h-screen flex flex-col font-sans text-dark">
-      <Header onLogin={navigateToLogin} onSignup={navigateToSignup} />
+      <Header onLogin={navigateToLogin} onSignup={navigateToSignup} onRecharge={navigateToRecharge} />
       <main className="flex-grow">
         <HeroBanner />
-        <StatsSection />
-        <div className="relative">
-            {/* Background decoration for order section */}
-            <div className="absolute top-0 left-0 right-0 h-1/2 bg-white/50 -z-10 rounded-b-[50px]"></div>
+        
+        {/* Order Form moved up */}
+        <div className="relative z-10 -mt-6"> 
+           {/* Added negative margin to pull overlapping effect up slightly */}
             <OrderForm />
         </div>
+
+        {/* Stats Section moved down */}
+        <StatsSection />
+        
         <GuideSection />
         <Reviews />
       </main>

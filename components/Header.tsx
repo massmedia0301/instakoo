@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 interface HeaderProps {
   onLogin: () => void;
   onSignup: () => void;
+  onRecharge: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onLogin, onSignup }) => {
+const Header: React.FC<HeaderProps> = ({ onLogin, onSignup, onRecharge }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -18,10 +19,10 @@ const Header: React.FC<HeaderProps> = ({ onLogin, onSignup }) => {
   }, []);
 
   const navItems = [
-    { name: '주문하기', href: '#order' },
-    { name: '서비스 안내', href: '#guide' },
-    { name: '충전하기', href: '#' },
-    { name: '고객센터', href: '#' },
+    { name: '주문하기', href: '#order', action: null },
+    { name: '서비스 안내', href: '#guide', action: null },
+    { name: '충전하기', href: '#', action: onRecharge }, // Added action
+    { name: '고객센터', href: '#', action: null },
   ];
 
   return (
@@ -30,36 +31,42 @@ const Header: React.FC<HeaderProps> = ({ onLogin, onSignup }) => {
         isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-4'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 md:px-8 flex justify-between items-center">
+      <div className="max-w-5xl mx-auto px-4 md:px-8 flex justify-between items-center">
         {/* Logo Area */}
         <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({top:0, behavior:'smooth'}); }} className="flex items-center gap-2 group">
-          <div className="relative w-10 h-10 bg-primary rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform">
-             <span className="text-white font-bold text-xl italic">in</span>
+          <div className="relative w-9 h-9 bg-primary rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform">
+             <span className="text-white font-bold text-lg italic">in</span>
           </div>
-          <span className="text-2xl font-bold text-primary tracking-tight">instakoo</span>
+          <span className="text-xl font-bold text-primary tracking-tight">instakoo</span>
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
             <a 
               key={item.name} 
               href={item.href} 
-              className="text-gray-600 hover:text-primary font-medium transition-colors"
+              onClick={(e) => {
+                if (item.action) {
+                  e.preventDefault();
+                  item.action();
+                }
+              }}
+              className="text-gray-600 hover:text-primary font-medium transition-colors text-sm"
             >
               {item.name}
             </a>
           ))}
-          <div className="flex items-center gap-3 ml-4">
+          <div className="flex items-center gap-2 ml-2">
             <button 
               onClick={onLogin}
-              className="text-primary font-medium hover:text-primaryLight transition-colors"
+              className="text-primary font-medium hover:text-primaryLight transition-colors text-sm"
             >
               로그인
             </button>
             <button 
               onClick={onSignup}
-              className="bg-primary hover:bg-primaryLight text-white px-5 py-2 rounded-full font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+              className="bg-primary hover:bg-primaryLight text-white px-4 py-1.5 rounded-full font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 text-sm"
             >
               회원가입
             </button>
@@ -68,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({ onLogin, onSignup }) => {
 
         {/* Mobile Hamburger */}
         <button 
-          className="md:hidden text-gray-700 text-2xl"
+          className="md:hidden text-gray-700 text-xl"
           onClick={() => setIsMobileMenuOpen(true)}
         >
           <i className="fa-solid fa-bars"></i>
@@ -93,7 +100,13 @@ const Header: React.FC<HeaderProps> = ({ onLogin, onSignup }) => {
                   key={item.name} 
                   href={item.href} 
                   className="text-lg font-medium text-gray-800 border-b border-gray-100 pb-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    setIsMobileMenuOpen(false);
+                    if (item.action) {
+                      e.preventDefault();
+                      item.action();
+                    }
+                  }}
                 >
                   {item.name}
                 </a>

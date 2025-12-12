@@ -18,7 +18,8 @@ const HeroBanner: React.FC = () => {
   }, [nextSlide]);
 
   return (
-    <div className="relative w-full h-[400px] md:h-[480px] overflow-hidden rounded-b-[40px] shadow-sm bg-white pt-16">
+    // Reduced height from h-[400px] md:h-[480px] to h-[300px] md:h-[380px]
+    <div className="relative w-full h-[300px] md:h-[380px] overflow-hidden rounded-b-[40px] shadow-sm bg-white pt-16">
       <div 
         className="flex transition-transform duration-500 ease-out h-full"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
