@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
-    base: '/', // ✅ 여기만 추가 (계정명이 instakoo인 유저페이지면 / 가 정답)
+    base: '/instakoo/',   // ✅ 이 줄 추가 (중요!)
 
     server: {
       port: 3000,
